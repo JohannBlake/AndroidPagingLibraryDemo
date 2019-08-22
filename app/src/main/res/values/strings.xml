@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Paging Library Demo</string>
+    <string name="application_error">Application Error</string>
+    <string name="cancel">Cancel</string>
+    <string name="fatal_error">A fatal error has occurred. It is recommended to restart the app.</string>
+    <string name="information">Information</string>
+    <string name="notification_category_name_fake_data">Fake Data</string>
+    <string name="ok">OK</string>
+    <string name="problem_retrieving_users">Problem retrieving users</string>
+    <string name="users">Users</string>
+</resources>

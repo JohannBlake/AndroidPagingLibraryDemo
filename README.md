@@ -1,2 +1,2 @@
-# AndroidPagingLibraryDemo
-An Android app that demonstrates the use of the Paging Library with limited and endless content
+# Android Paging Library Demo
+An Android app that demonstrates paging using limited data or endless data. (Endliess paging still needs to be implemented).
