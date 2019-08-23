@@ -61,12 +61,17 @@ class UsersFragment : Fragment() {
 
         setupRecyclerView()
 
-        mUsersViewModel.getUsersFromLocalDB().observe(this, Observer { users ->
-            //mUsersViewModel.totalPageItemsRetrieved(users.size)
+        mUsersViewModel.getUsersFromBackend().observe(this, Observer { users ->
             users?.let {
                 render(users)
             }
         })
+
+//        mUsersViewModel.getUsersFromLocalDB().observe(this, Observer { users ->
+//            users?.let {
+//                render(users)
+//            }
+//        })
 
         return binding.root
     }

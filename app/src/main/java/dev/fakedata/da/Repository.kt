@@ -31,10 +31,14 @@ class Repository @Inject constructor(
             return mAppDao.getUsersAsc()
     }
 
-    @SuppressLint("CheckResult")
-    fun getUsersFromServer(options: UsersAPIOptions) {
+    fun getUsersFromServer(options: UsersAPIOptions): Observable<List<UserInfo>> {
+        return mFakeDataAPI.getUsers(if (options.useFacePhotos) "f" else "", options.startPos, options.pageSize, if (options.sortDesc) "desc" else "asc", options.imageSize)
+    }
 
-        mFakeDataAPI.getUsers(options.startPos, options.pageSize, if (options.sortDesc) "desc" else "asc", options.imageSize)
+    @SuppressLint("CheckResult")
+    fun getUsersFromServerAndCacheToLocalDB(options: UsersAPIOptions) {
+
+        mFakeDataAPI.getUsers(if (options.useFacePhotos) "f" else "", options.startPos, options.pageSize, if (options.sortDesc) "desc" else "asc", options.imageSize)
             .doOnNext {users ->
                 options.startPos += users.size
                 mAppDao.storeUsers(users)

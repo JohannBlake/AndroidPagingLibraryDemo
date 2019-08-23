@@ -19,6 +19,6 @@ interface FakeDataAPI {
      */
     @GET("get_users")
     fun getUsers(
-        @Query("sp") startPos: Int, @Query("ps") pageSize: Int, @Query("sd") sortDirection: String, @Query("is") imageSize: Int
+        @Query("av") avatarsToUse: String, @Query("sp") startPos: Int, @Query("ps") pageSize: Int, @Query("sd") sortDirection: String, @Query("is") imageSize: Int
     ): Observable<List<UserInfo>>
 }
