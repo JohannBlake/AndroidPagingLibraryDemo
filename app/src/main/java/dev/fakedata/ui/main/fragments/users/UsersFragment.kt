@@ -12,8 +12,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import dev.fakedata.R
-import dev.fakedata.bo.UsersAPIOptions
 import dev.fakedata.databinding.FragmentUsersBinding
 import dev.fakedata.di.components.DaggerUsersFragmentComponent
 import dev.fakedata.model.UserInfo
@@ -61,7 +59,7 @@ class UsersFragment : Fragment() {
 
         setupRecyclerView()
 
-        mUsersViewModel.getUsersFromBackend().observe(this, Observer { users ->
+        mUsersViewModel.getUsersFromServer().observe(this, Observer { users ->
             users?.let {
                 render(users)
             }
