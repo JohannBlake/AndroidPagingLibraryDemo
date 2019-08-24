@@ -59,6 +59,8 @@ class UsersFragment : Fragment() {
 
         setupRecyclerView()
 
+        ///mUsersViewModel.getUsersFromServer()
+
         mUsersViewModel.getUsersFromServer().observe(this, Observer { users ->
             users?.let {
                 render(users)
@@ -76,12 +78,6 @@ class UsersFragment : Fragment() {
 
     private fun render(pageList: PagedList<UserInfo>) {
         recyclerViewAdapter.submitList(pageList)
-
-        if (pageList.isEmpty()) {
-            recyclerView.visibility = View.GONE
-        } else {
-            recyclerView.visibility = View.VISIBLE
-        }
     }
 
     private fun setupRecyclerView() {

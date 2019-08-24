@@ -9,13 +9,15 @@ import retrofit2.http.*
 
 
 /**
- * Retrofit API declarations. Pay attention to how paths are declared. Some require forward slashes at the start of the
- * path while others do not. Adding or not adding a slash at the start can cause the api to fail.
+ * Retrofit API declarations.
+ * NOTE: If a path starts with a forward slash, it means that it is relative to the root domain. Without a prefixed forward slash, the path is appended to whatever
+ * the base url is set to.
  */
 interface FakeDataAPI {
 
     /**
-     * Get users from the list of 1,000 non-random users.
+     * Retrieves a list of users. If the "av" parameter is set, up to 1,000 users are retrieved with photos of actual faces. If not set, up to 1 million users
+     * will be retrieved with photos being a mixture of real phases and avatars.
      */
     @GET("get_users")
     fun getUsers(

@@ -15,17 +15,17 @@ class UsersDataSource(private val options: UsersAPIOptions) : PositionalDataSour
     @SuppressLint("CheckResult")
     override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<UserInfo>) {
         App.context.repository.getUsersFromServer(options)
-            .doOnNext {users ->
+            .doOnNext { users ->
                 options.startPos += users.size
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {users ->
+                { users ->
                     callback.onResult(users)
                 },
-                {
-                        ex -> App.context.displayErrorMessage(R.string.problem_retrieving_users)
+                { ex ->
+                    App.context.displayErrorMessage(R.string.problem_retrieving_users)
                 }
             )
     }
@@ -33,17 +33,17 @@ class UsersDataSource(private val options: UsersAPIOptions) : PositionalDataSour
     @SuppressLint("CheckResult")
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<UserInfo>) {
         App.context.repository.getUsersFromServer(options)
-            .doOnNext {users ->
+            .doOnNext { users ->
                 options.startPos += users.size
             }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {users ->
+                { users ->
                     callback.onResult(users, 0)
                 },
-                {
-                        ex -> App.context.displayErrorMessage(R.string.problem_retrieving_users)
+                { ex ->
+                    App.context.displayErrorMessage(R.string.problem_retrieving_users)
                 }
             )
     }

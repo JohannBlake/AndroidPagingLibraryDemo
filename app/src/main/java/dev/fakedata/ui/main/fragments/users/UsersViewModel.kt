@@ -39,17 +39,6 @@ class UsersViewModel @Inject constructor(private val users: Users) : ViewModel()
         }).build()
     }
 
-//    lateinit var nonCachedUsers: LiveData<PagedList<UserInfo>>
-//
-//    fun getUsersFromServer() {
-//        val config = PagedList.Config.Builder()
-//            .setPageSize(20)
-//            .setEnablePlaceholders(false)
-//            .build()
-//
-//        nonCachedUsers = LivePagedListBuilder<Int, UserInfo>(UsersDataSourceFactory(mAPIOptions), config).build()
-//    }
-
 
     fun getUsersFromLocalDB(): LiveData<PagedList<UserInfo>> {
         return LivePagedListBuilder(users.getUsersFromLocalDB(mAPIOptions), mAPIOptions.pageSize).setBoundaryCallback(object : PagedList.BoundaryCallback<UserInfo>() {

@@ -16,8 +16,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Acts as a single interface to data throughout the app. However, calls to backend APIs should only be made by the service as it coordinates
- * multiple API calls and runs asynchronously to calls to the Room database.
+ * Acts as a single interface to data throughout the app.
  */
 @Singleton
 class Repository @Inject constructor(
@@ -39,7 +38,7 @@ class Repository @Inject constructor(
     fun getUsersFromServerAndCacheToLocalDB(options: UsersAPIOptions) {
 
         mFakeDataAPI.getUsers(if (options.useFacePhotos) "f" else "", options.startPos, options.pageSize, if (options.sortDesc) "desc" else "asc", options.imageSize)
-            .doOnNext {users ->
+            .doOnNext { users ->
                 options.startPos += users.size
                 mAppDao.storeUsers(users)
             }
@@ -48,8 +47,8 @@ class Repository @Inject constructor(
             .subscribe(
                 {
                 },
-                {
-                        ex -> App.context.displayErrorMessage(R.string.problem_retrieving_users)
+                { ex ->
+                    App.context.displayErrorMessage(R.string.problem_retrieving_users)
                 }
             )
     }
