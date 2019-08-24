@@ -5,7 +5,7 @@ This app illustrates the use of the Android Paging Library and follows the pract
 
 [https://developer.android.com/topic/libraries/architecture/paging](https://developer.android.com/topic/libraries/architecture/paging)
 
-
+![](https://raw.githubusercontent.com/JohannBlake/AndroidPagingLibraryDemo/master/images/app_snapshot.png | width=1000)
 
 The app demonstrates two modes of paging: networking only or network/db
 
