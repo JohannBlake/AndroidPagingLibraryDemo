@@ -7,7 +7,7 @@ This app illustrates the use of the Android Paging Library and follows the pract
 
 The app demonstrates two modes of paging: networking only or network/db
 
-With network only, a list of users is retrieved from the site fakedata.dev and is displayed in a recyclerview without any caching at all. The network/db mode retrieves users
+With network only, a list of users is retrieved from the site [fakedata.dev](fakedata.dev) and is displayed in a recyclerview without any caching at all. The network/db mode retrieves users
 from the backend and stores them in a Room database and will re-use this cached data when it's needed. If the recyclerview runs out of data, another network call is made and
 its results are cached in the Room database.
 
