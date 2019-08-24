@@ -9,7 +9,6 @@ import dev.fakedata.da.local.room.RoomDao
 import dev.fakedata.da.web.FakeDataAPI
 import dev.fakedata.model.UserInfo
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

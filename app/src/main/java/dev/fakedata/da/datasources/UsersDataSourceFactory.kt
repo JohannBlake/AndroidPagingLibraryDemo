@@ -1,6 +1,5 @@
 package dev.fakedata.da.datasources
 
-import android.content.ContentResolver
 import androidx.paging.DataSource
 import dev.fakedata.bo.UsersAPIOptions
 import dev.fakedata.model.UserInfo

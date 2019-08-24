@@ -1,9 +1,8 @@
 package dev.fakedata.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import dev.fakedata.R
-import dev.fakedata.ui.main.fragments.users.UsersFragment
 
 class MainActivity : AppCompatActivity() {
 
