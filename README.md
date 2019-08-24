@@ -5,6 +5,8 @@ This app illustrates the use of the Android Paging Library and follows the pract
 
 [https://developer.android.com/topic/libraries/architecture/paging](https://developer.android.com/topic/libraries/architecture/paging)
 
+
+
 The app demonstrates two modes of paging: networking only or network/db
 
 With network only, a list of users is retrieved from the site [fakedata.dev](fakedata.dev) and is displayed in a recyclerview without any caching at all. The network/db mode retrieves users
