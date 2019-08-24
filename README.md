@@ -1,5 +1,5 @@
 # Android Paging Library Demo
-An Android app that demonstrates paging using limited data or endless data.
+An Android app that demonstrates paging using network only (endless data) or network/db (limited data).
 
 This app illustrates the use of the Android Paging Library and follows the practices as outlined at:
 
