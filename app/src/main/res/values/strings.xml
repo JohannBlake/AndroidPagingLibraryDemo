@@ -8,4 +8,5 @@
     <string name="ok">OK</string>
     <string name="problem_retrieving_users">Problem retrieving users</string>
     <string name="users">Users</string>
+    <string name="title_activity_floatingbutton">floatingbutton</string>
 </resources>

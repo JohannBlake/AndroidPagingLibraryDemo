@@ -1,6 +1,7 @@
 package dev.fakedata.ui.main.fragments.users
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -12,20 +13,23 @@ import javax.inject.Inject
 
 class UsersViewModel @Inject constructor(private val users: Users) : ViewModel() {
 
-    private var mAPIOptions = UsersAPIOptions()
+    var apiOptions = UsersAPIOptions()
     private var mLoadMore = false
 
-    fun getUsersFromServer(): LiveData<PagedList<UserInfo>> {
+    var onLoadDataFromServer: LiveData<PagedList<UserInfo>> = MutableLiveData()
+    var onLoadDataFromLocalDB: LiveData<PagedList<UserInfo>> = MutableLiveData()
+
+    fun getUsersFromServer() {
 
         val config = PagedList.Config.Builder()
-            .setPageSize(mAPIOptions.pageSize)
+            .setPageSize(apiOptions.pageSize)
             .setEnablePlaceholders(false)
             .build()
 
-        return LivePagedListBuilder(UsersDataSourceFactory(mAPIOptions), config).setBoundaryCallback(object : PagedList.BoundaryCallback<UserInfo>() {
+        onLoadDataFromServer = LivePagedListBuilder(UsersDataSourceFactory(apiOptions), config).setBoundaryCallback(object : PagedList.BoundaryCallback<UserInfo>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
-                users.getUsersFromServer(mAPIOptions)
+                users.getUsersFromServer(apiOptions)
             }
 
             override fun onItemAtFrontLoaded(itemAtFront: UserInfo) {
@@ -34,17 +38,17 @@ class UsersViewModel @Inject constructor(private val users: Users) : ViewModel()
 
             override fun onItemAtEndLoaded(itemAtEnd: UserInfo) {
                 super.onItemAtEndLoaded(itemAtEnd)
-                users.getUsersFromServer(mAPIOptions)
+                users.getUsersFromServer(apiOptions)
             }
         }).build()
     }
 
 
-    fun getUsersFromLocalDB(): LiveData<PagedList<UserInfo>> {
-        return LivePagedListBuilder(users.getUsersFromLocalDB(mAPIOptions), mAPIOptions.pageSize).setBoundaryCallback(object : PagedList.BoundaryCallback<UserInfo>() {
+    fun getUsersFromLocalDB() {
+        onLoadDataFromLocalDB = LivePagedListBuilder(users.getUsersFromLocalDB(apiOptions), apiOptions.pageSize).setBoundaryCallback(object : PagedList.BoundaryCallback<UserInfo>() {
             override fun onZeroItemsLoaded() {
                 super.onZeroItemsLoaded()
-                users.getUsersFromServerAndCacheToLocalDB(mAPIOptions)
+                users.getUsersFromServerAndCacheToLocalDB(apiOptions)
             }
 
             override fun onItemAtFrontLoaded(itemAtFront: UserInfo) {
@@ -53,18 +57,18 @@ class UsersViewModel @Inject constructor(private val users: Users) : ViewModel()
 
             override fun onItemAtEndLoaded(itemAtEnd: UserInfo) {
                 super.onItemAtEndLoaded(itemAtEnd)
-                users.getUsersFromServerAndCacheToLocalDB(mAPIOptions)
+                users.getUsersFromServerAndCacheToLocalDB(apiOptions)
             }
         }).build()
     }
 
 
     fun totalPageItemsRetrieved(total: Int) {
-        mAPIOptions.startPos += total
+        apiOptions.startPos += total
 
         if (mLoadMore) {
             mLoadMore = false
-            users.getUsersFromServerAndCacheToLocalDB(mAPIOptions)
+            users.getUsersFromServerAndCacheToLocalDB(apiOptions)
         }
     }
 

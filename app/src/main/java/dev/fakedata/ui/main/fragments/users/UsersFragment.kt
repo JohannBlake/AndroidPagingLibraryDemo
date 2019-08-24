@@ -7,11 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
+import dev.fakedata.R
 import dev.fakedata.databinding.FragmentUsersBinding
 import dev.fakedata.di.components.DaggerUsersFragmentComponent
 import dev.fakedata.model.UserInfo
@@ -36,13 +40,14 @@ class UsersFragment : Fragment() {
     lateinit var usersViewModelFactory: UsersViewModelFactory
 
     private lateinit var mUsersViewModel: UsersViewModel
-    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
+    private lateinit var fab: FloatingActionButton
 
     private val clickListener: ClickListener = this::onListItemClicked
-    private val recyclerViewAdapter = UsersAdapter(clickListener)
+    private var recyclerViewAdapter = UsersAdapter(clickListener)
 
     private var mContext: Context? = null
+    private var mUseEndlessScrolling = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,26 +57,53 @@ class UsersFragment : Fragment() {
 
         val binding = FragmentUsersBinding.inflate(inflater, container, false)
 
-        swipeRefresh = binding.swipeRefreshLayout
         recyclerView = binding.rvUsers
+        fab = binding.fab
+
+        fab.setOnClickListener { view ->
+            mUseEndlessScrolling = !mUseEndlessScrolling
+            recyclerViewAdapter = UsersAdapter(clickListener)
+            recyclerView.adapter = recyclerViewAdapter
+            mUsersViewModel.apiOptions.startPos = 0
+
+            if (mUseEndlessScrolling) {
+                fab.setImageResource(R.drawable.ic_all_inclusive)
+                mUsersViewModel.onLoadDataFromServer.removeObservers(mContext as LifecycleOwner)
+
+                mUsersViewModel.apiOptions.useFacePhotos = false
+                mUsersViewModel.getUsersFromServer()
+
+                mUsersViewModel.onLoadDataFromServer.observe(this, Observer { users ->
+                    users?.let {
+                        render(users)
+                    }
+                })
+
+            } else {
+                fab.setImageResource(R.drawable.ic_vertical_align_bottom)
+                mUsersViewModel.onLoadDataFromLocalDB.removeObservers(mContext as LifecycleOwner)
+
+                mUsersViewModel.apiOptions.useFacePhotos = true
+                mUsersViewModel.getUsersFromLocalDB()
+
+                mUsersViewModel.onLoadDataFromLocalDB.observe(this, Observer { users ->
+                    users?.let {
+                        render(users)
+                    }
+                })
+            }
+        }
 
         mUsersViewModel = ViewModelProviders.of(this, usersViewModelFactory).get(UsersViewModel::class.java)
 
         setupRecyclerView()
 
-        ///mUsersViewModel.getUsersFromServer()
-
-        mUsersViewModel.getUsersFromServer().observe(this, Observer { users ->
+        mUsersViewModel.getUsersFromLocalDB()
+        mUsersViewModel.onLoadDataFromLocalDB.observe(this, Observer { users ->
             users?.let {
                 render(users)
             }
         })
-
-//        mUsersViewModel.getUsersFromLocalDB().observe(this, Observer { users ->
-//            users?.let {
-//                render(users)
-//            }
-//        })
 
         return binding.root
     }
@@ -95,5 +127,4 @@ class UsersFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
     }
-
 }

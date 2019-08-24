@@ -19,4 +19,13 @@
         <item name="android:textColor">@color/list_item_text_color</item>
     </style>
 
+    <style name="AppTheme.FakeDataTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.FakeDataTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.FakeDataTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
